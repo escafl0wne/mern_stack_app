@@ -60,7 +60,7 @@ export async function fetchUser(userId: string): Promise<TUserResponse | null> {
   try {
     connectToDB();
     const user = await User.findOne({ id: userId });
-    console.log( user)
+   
     return user;
   } catch (error) {
     throw new Error(`Failed to fetch user`, { cause: error });
