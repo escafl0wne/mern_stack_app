@@ -33,8 +33,8 @@ export async function updateUser({
   image,
   path,
   email,
-  objectId=undefined
-}: TUserProps): Promise<void | Error> {
+ 
+}: Omit<TUserProps,"objectId">): Promise<void | Error> {
  
   try {
    

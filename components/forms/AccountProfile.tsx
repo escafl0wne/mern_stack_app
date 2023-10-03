@@ -90,7 +90,7 @@ export default function AccountProfile({
         image: values.profile_photo,
         path: pathname,
         email:user.email,
-        objectId:user.objectId
+       
       });
   
       if (pathname === "/profile/edit") {
