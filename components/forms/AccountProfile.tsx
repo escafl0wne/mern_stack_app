@@ -20,18 +20,19 @@ import { isBase64Image } from "@/lib/utils";
 import { useUploadThing } from "@/lib/uploadthing";
 import { updateUser } from "@/lib/actions/user.actions";
 import { usePathname,useRouter } from "next/navigation";
-
+export type TUserProps = {
+  userId: string;
+  username: string;
+  name: string;
+  bio: string;
+  image: string;
+  path: string;
+  email:string
+};
 
 type TAccountProfileProps = {
   btnTitle: string;
-  user: {
-    id: string;
-    objectId: string;
-    username: string;
-    name: string;
-    bio: string;
-    image: string;
-  };
+  user: TUserProps
 };
 
 export default function AccountProfile({
@@ -51,6 +52,7 @@ export default function AccountProfile({
   });
   const router = useRouter();
   const pathname = usePathname();
+
   function handleImage(
     e: ChangeEvent<HTMLInputElement>,
     fieldChange: (value: string) => void
@@ -78,6 +80,7 @@ export default function AccountProfile({
       }
     }
     try {
+      
       await updateUser({
         userId: user.id,
         username: values.username,
@@ -85,6 +88,7 @@ export default function AccountProfile({
         bio: values.bio,
         image: values.profile_photo,
         path: pathname,
+        email:user.email
       });
   
       if (pathname === "/profile/edit") {

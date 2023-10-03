@@ -7,9 +7,12 @@ import { redirect } from "next/navigation";
 
 async function Page() {
   const user: User | null = await currentUser();
-  if (!user) return null; // to avoid typescript warnings
+  if (!user) return redirect("/sign-in"); // to avoid typescript warnings
+ 
   const userInfo = await fetchUser(user.id);
+  
   if (userInfo?.onboarded) return redirect("/");
+  
   const userData = {
     id: user?.id,
     objectId: userInfo?._id,
@@ -17,6 +20,7 @@ async function Page() {
     name: userInfo?.name || user?.firstName || "",
     bio: userInfo?.bio || "",
     image: userInfo?.image || user?.imageUrl,
+    email:user.emailAddresses[0].emailAddress
   };
 
   return (

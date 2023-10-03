@@ -1,12 +1,16 @@
 
 import ThreadCard from "@/components/cards/ThreadCard";
 import { fetchThreads } from "@/lib/actions/thread.actions";
+import { fetchUser,isUser } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
 export default async function Home() {
   const result = await fetchThreads(1,30)
   const user = await currentUser();
+  
   if (!user) return null;
-
+  const mongoUser = await fetchUser(user.id);
+  if(!mongoUser)return redirect("/onboarding")
   return (
     <div>
       <h1 className="head-text text-left">Home Page</h1>
@@ -21,7 +25,7 @@ export default async function Home() {
                 author={thread.author}
                 community={thread.community}
                 createdAt={thread.createdAt}
-                comments={thread.children}
+                children={thread.children}
               />
         )): <p className="no-result">No threads found</p>}
 
