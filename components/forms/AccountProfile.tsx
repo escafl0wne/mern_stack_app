@@ -22,11 +22,12 @@ import { updateUser } from "@/lib/actions/user.actions";
 import { usePathname,useRouter } from "next/navigation";
 export type TUserProps = {
   userId: string;
-  username: string;
+  objectId:object | undefined,
+  username: string | null;
   name: string;
   bio: string;
   image: string;
-  path: string;
+  path?: string;
   email:string
 };
 
@@ -82,13 +83,14 @@ export default function AccountProfile({
     try {
       
       await updateUser({
-        userId: user.id,
+        userId: user.userId,
         username: values.username,
         name: values.name,
         bio: values.bio,
         image: values.profile_photo,
         path: pathname,
-        email:user.email
+        email:user.email,
+        objectId:user.objectId
       });
   
       if (pathname === "/profile/edit") {

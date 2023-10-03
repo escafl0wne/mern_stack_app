@@ -5,11 +5,25 @@ import User from "../models/user.model";
 import { connectToDB } from "../mongoose";
 import Thread from "../models/thread.model";
 import Community from "../models/community.model";
-import { FilterQuery, SortOrder } from "mongoose";
+import { Date, FilterQuery, SortOrder } from "mongoose";
 import { TUserProps } from "@/components/forms/AccountProfile";
 
 
-
+type TUserResponse = {
+  _id: object,
+  id: string,
+  __v: number,
+  bio: string,
+  communities: string[],
+  createdAt: Date,
+  email: string,
+  image: string,
+  name: string,
+  onboarded: boolean,
+  threads: string[],
+  updatedAt: Date,
+  username: string
+}
 
 export async function updateUser({
   userId,
@@ -18,7 +32,8 @@ export async function updateUser({
   bio,
   image,
   path,
-  email
+  email,
+  objectId=undefined
 }: TUserProps): Promise<void | Error> {
  
   try {
@@ -27,7 +42,7 @@ export async function updateUser({
     
     await User.findOneAndUpdate(
       { id: userId },
-      { username: username.toLowerCase(), name, bio, image, onboarded: true,email:email },
+      { username: username?.toLowerCase(), name, bio, image, onboarded: true,email:email },
       { upsert: true }
     );
 
@@ -40,11 +55,12 @@ export async function updateUser({
   }
 }
 
-export async function fetchUser(userId: string): Promise<unknown> {
+export async function fetchUser(userId: string): Promise<TUserResponse | null> {
   
   try {
     connectToDB();
     const user = await User.findOne({ id: userId });
+    console.log( user)
     return user;
   } catch (error) {
     throw new Error(`Failed to fetch user`, { cause: error });
