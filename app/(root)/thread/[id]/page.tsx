@@ -51,7 +51,7 @@ export default async function Page({ params }: { params: { id: string } }) {
             author={childItm.author}
             community={childItm.community}
             createdAt={childItm.createdAt}
-            comments={childItm.children}
+            children={childItm.children}
             isComment
           />
         ))}

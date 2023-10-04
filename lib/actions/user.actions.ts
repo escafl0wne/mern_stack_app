@@ -5,14 +5,16 @@ import User from "../models/user.model";
 import { connectToDB } from "../mongoose";
 import Thread from "../models/thread.model";
 import Community from "../models/community.model";
-import { Date, FilterQuery, SortOrder } from "mongoose";
+import mongoose, { Date, FilterQuery, SortOrder } from "mongoose";
 import { TUserProps } from "@/components/forms/AccountProfile";
+import { z } from "zod";
 
 
-type TUserResponse = {
-  _id: object,
+
+type TUserResponse =  mongoose.Document & {
+ 
   id: string,
-  __v: number,
+
   bio: string,
   communities: string[],
   createdAt: Date,
